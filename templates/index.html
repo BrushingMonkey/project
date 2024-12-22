@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockCalc</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body class="bg-gray-900 min-h-screen text-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 border-b border-gray-700">
+        <div class="max-w-4xl mx-auto px-6 py-3 flex justify-between items-center">
+            <span class="text-xl font-bold text-blue-400">StockCalc</span>
+            <div>
+                <span class="text-gray-300">{{ current_user.email }}</span>
+                <a href="{{ url_for('logout') }}" class="text-red-400 hover:text-red-300 ml-4">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Calculator Section -->
+        <div class="bg-gray-800 p-6 rounded-lg mb-6">
+            <h2 class="text-xl font-bold text-blue-400 mb-4">Calculate Position</h2>
+            <form id="tradeForm">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" name="symbol" placeholder="Symbol (e.g., BTC/USDT)" required class="w-full bg-gray-700 text-white p-2 rounded">
+                    <input type="number" name="currentPrice" placeholder="Current Price" step="0.01" required class="w-full bg-gray-700 text-white p-2 rounded">
+                </div>
+                <select name="positionType" required class="w-full bg-gray-700 text-white p-2 rounded my-4">
+                    <option value="" disabled selected>Select Position (Long/Short)</option>
+                    <option value="long">Long</option>
+                    <option value="short">Short</option>
+                </select>
+                <input type="number" name="riskAmount" placeholder="Risk Amount ($)" step="0.01" required class="w-full bg-gray-700 text-white p-2 rounded my-4">
+                <input type="number" name="stopLoss" placeholder="Stop Loss (optional)" step="0.01" class="w-full bg-gray-700 text-white p-2 rounded mb-4">
+                <input type="number" name="takeProfit" placeholder="Take Profit (optional)" step="0.01" class="w-full bg-gray-700 text-white p-2 rounded mb-4">
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">Calculate</button>
+            </form>
+        </div>
+
+        <!-- Trade History Section -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-xl font-bold text-blue-400 mb-4">Trade History</h2>
+            <table class="w-full mt-4 border-collapse border border-gray-700">
+                <thead>
+                    <tr class="text-gray-400 text-sm bg-gray-700">
+                        <th class="border border-gray-600 px-2 py-2">Symbol</th>
+                        <th class="border border-gray-600 px-2 py-2">Position</th>
+                        <th class="border border-gray-600 px-2 py-2">Entry Price</th>
+                        <th class="border border-gray-600 px-2 py-2">Stop Loss</th>
+                        <th class="border border-gray-600 px-2 py-2">Take Profit</th>
+                        <th class="border border-gray-600 px-2 py-2">Size</th>
+                        <th class="border border-gray-600 px-2 py-2">Potential Profit</th>
+                        <th class="border border-gray-600 px-2 py-2">Potential Loss</th>
+                        <th class="border border-gray-600 px-2 py-2">Risk/Reward</th>
+                        <th class="border border-gray-600 px-2 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tradeHistory">
+                    <!-- JavaScript dynamically populates this -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
